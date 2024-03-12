@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}
+    Market Place
+{% endblock %}
+{% block content %}
+
+  <div class="row" style ="margin-top:20px; margin-left:20px">
+    <div class="col-8">
+        <h2>Available Software</h2>
+        <p>Click on one product to acquire a temporal license</p>
+        <br>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <!-- Your Columns HERE -->
+                    <th scope="col">ID</th>
+                    <th scope="col">Software</th>
+                    <th scope="col">Barcode</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Your rows inside the table HERE: -->
+                {% for item in items %}
+                {% include 'includes/items_modals.html' %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.barcode }}</td>
+                    <td>{{ item.price }} coins</td>
+                    <td>
+                        <button type="button" class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">More Info</button>
+                        <button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ item.id }}">Acquire</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-4">
+        <h2>Acquired Licenses</h2>
+        <p>Click on one product to free up the license</p>
+        <br>
+        <div class="row">
+            {% for owned_item in owned_items %}
+            {% include 'includes/owned_items_modals.html' %}
+                <div class="col-md-6">
+
+                    <div style="margin-bottom: 5px" class="cad text-center bg-dark">
+                        <h3 class="card-title">{{ owned_item.name }}</h3>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-outline-success" style="margin-bottom:5px"
+                                    data-toggle="modal" data-target="#Modal-SellingConfirm--{{ owned_item.id }}">
+                                Get user and password
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+
+                            <button type="button" class="btn btn-outline-danger" style="margin-bottom:5px"
+                                    data-toggle="modal" data-target="#Modal-SellingConfirm--{{ owned_item.id }}">
+                                Free Up
+                            </button>
+                            <p class="card-text"><strong>This software costs {{ owned_item.price }} coins</strong></p>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+  </div>
+
+{% endblock %}
